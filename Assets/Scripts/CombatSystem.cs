@@ -24,7 +24,7 @@ public class CombatSystem : MonoBehaviour
     [SerializeField] private float _sugarRushDuration = 10f;
     [SerializeField] private bool _canSugarRush = false;
     [SerializeField] private float _sugarCrashDuration = 10f;
-    private bool _canSwing;
+    private bool _canSwing = true;
     [SerializeField]Playercontroller _playercontroller;
 
 
@@ -49,38 +49,41 @@ public class CombatSystem : MonoBehaviour
     {
         if (context.performed)
         {
+            
             switch (_playercontroller.horizontal.x)
             {
                 case -1f:
                     Debug.Log("Swing Left");
                     _Hammer.transform.SetParent(_playercontroller.leftGroundCheck);
-                    _canSwing = true;
-                    
+                    _canSwing = false;
+
                     StartCoroutine(HammerSwing());
                     break;
                 case 1:
                     Debug.Log("Swing Right");
                     _Hammer.transform.SetParent(_playercontroller.rightGroundCheck);
-                    _canSwing = true;
+                    _canSwing = false;
 
                     StartCoroutine(HammerSwing());
                     break;
             }
-            if (_playercontroller.IsGrounded() && _playercontroller.horizontal.x == 0)
+            if (!_playercontroller.IsGrounded() && _playercontroller.horizontal.x == 0  && _canSwing || _playercontroller.IsGrounded() && Input.GetKey(KeyCode.DownArrow) && _playercontroller.horizontal.x == 0 && _canSwing)
             {
-                _Hammer.transform.SetParent(_playercontroller.upGroundCheck);
-                _canSwing = true;
+                _Hammer.transform.SetParent(_playercontroller.groundCheck);
+                _canSwing = false;
 
                 StartCoroutine(HammerSwing());
             }
 
-            if (!_playercontroller.IsGrounded() && _playercontroller.horizontal.x == 0)
-            { 
-                _Hammer.transform.SetParent(_playercontroller.groundCheck);
-                    _canSwing = true;
+            if (_playercontroller.IsGrounded() && _playercontroller.horizontal.x == 0 && _canSwing)
+            {
+                _Hammer.transform.SetParent(_playercontroller.upGroundCheck);
+                _canSwing = false;
 
-                    StartCoroutine(HammerSwing());
+                StartCoroutine(HammerSwing());
             }
+
+            
 
             _sugarMetter += _sugarIncrease;
         }
@@ -127,7 +130,7 @@ public class CombatSystem : MonoBehaviour
             _Hammer.transform.eulerAngles = new Vector3(0, 0, 90);
         }
 
-       if(!_playercontroller.IsGrounded() && _playercontroller.horizontal.x == 0)
+       if(!_playercontroller.IsGrounded() && _playercontroller.horizontal.x == 0 || _playercontroller.IsGrounded() && Input.GetKey(KeyCode.DownArrow) && _playercontroller.horizontal.x == 0)
        {
          _Hammer.transform.position = _playercontroller.groundCheck.position;
             _Hammer.transform.position = new Vector2(_Hammer.transform.position.x, _Hammer.transform.position.y-1);
@@ -141,6 +144,7 @@ public class CombatSystem : MonoBehaviour
         _Hammer.SetActive(false);
         yield return new WaitForSeconds(_sugarIncrease);
         _Hammer.transform.parent = this.transform;
+        _canSwing = true;
 
     }
     private IEnumerator SugarRush()

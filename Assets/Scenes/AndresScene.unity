@@ -394,6 +394,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   upGroundCheck: {fileID: 424964090}
+  horizontal: {x: 0, y: 0}
 --- !u!114 &183364136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +528,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 4c54a86e-f09d-4e3d-8e40-6718d881a114
     m_ActionName: GamePlay/Hover[/Keyboard/a]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 183364139}
+        m_TargetAssemblyTypeName: CombatSystem, Assembly-CSharp
+        m_MethodName: hammer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6697b016-013f-409b-b816-fd60d7a8d8e8
+    m_ActionName: GamePlay/HammerSwing[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: GamePlay
@@ -630,7 +647,6 @@ MonoBehaviour:
   _sugarRushDuration: 10
   _canSugarRush: 0
   _sugarCrashDuration: 10
-  _canSwing: 0
   _playercontroller: {fileID: 183364135}
 --- !u!1 &218098995
 GameObject:
