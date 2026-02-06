@@ -18,34 +18,34 @@ public class Playercontroller : MonoBehaviour
 
     [Header("Grounding")]
     [SerializeField] LayerMask groundLayer;
-    [SerializeField] Transform groundCheck;
+    [SerializeField] public Transform groundCheck;
 
     [Header("LeftGrounding")] 
     [SerializeField] LayerMask leftGroundLayer;
-    [SerializeField] Transform leftGroundCheck;
+    [SerializeField] public Transform leftGroundCheck;
 
     [Header("RightGrounding")]
     [SerializeField] LayerMask rightGroundLayer;
-    [SerializeField] Transform rightGroundCheck;
+    [SerializeField] public Transform rightGroundCheck;
 
     [Header("UpGrounding")]
     [SerializeField] LayerMask upGroundLayer;
-    [SerializeField] Transform upGroundCheck;
+    [SerializeField] public Transform upGroundCheck;
 
     private int jumpCount = 2;
 
 
-    private float horizontal;
+    public Vector2 horizontal;
 
     private void FixedUpdate() //allow movement
     {
-        rb.velocity = new Vector2(horizontal * speed, rb.velocity.y);
+        rb.velocity = new Vector2(horizontal.x * speed, rb.velocity.y);
     }
 
     #region PLAYER_CONTROLS
     public void Move(InputAction.CallbackContext context) //code for moving back and forth
     {
-        horizontal = context.ReadValue<Vector2>().x;
+        horizontal.x = context.ReadValue<Vector2>().x;
     }
 
     public void Descend(InputAction.CallbackContext context) //code for moving back and forth
@@ -66,30 +66,30 @@ public class Playercontroller : MonoBehaviour
         }
         if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
-            horizontal = 10f;
+            horizontal.x = 10f;
         }
        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
-            horizontal = -10f;
+            horizontal.x = -10f;
         }
         if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
-            horizontal = 10f;
+            horizontal.x = 10f;
             rb.velocity = new Vector2(rb.velocity.x, bouncePower);
         }
         if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
         {
-            horizontal = -10f;
+            horizontal.x = -10f;
             rb.velocity = new Vector2(rb.velocity.x, bouncePower);
         }
         if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow))
         {
-            horizontal = 10f;
+            horizontal.x = 10f;
             rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
         }
         if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow))
         {
-            horizontal = -10f;
+            horizontal.x = -10f;
             rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
         }
     }
@@ -142,7 +142,7 @@ public class Playercontroller : MonoBehaviour
         }
     }
 
-    private bool IsGrounded() //a capsule checks if the player is on the ground, capsule values here must match with scale of capsule i made
+    public bool IsGrounded() //a capsule checks if the player is on the ground, capsule values here must match with scale of capsule i made
     {
         
         return Physics2D.OverlapCapsule(groundCheck.position, new Vector2(0.92f, 0.14f), CapsuleDirection2D.Horizontal, 0, groundLayer);
