@@ -95,6 +95,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "GravityControl",
+                    "type": "Button",
+                    "id": "138d59ba-865f-4c46-8025-1c3b1b000fe8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -266,7 +275,7 @@
                 {
                     "name": "",
                     "id": "d2a4b084-2714-4981-93e2-4f34d39b95bd",
-                    "path": "<Keyboard>/f",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -293,6 +302,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "HammerSwing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97c53611-4286-454f-86bb-6e2caa5308de",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "GravityControl",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

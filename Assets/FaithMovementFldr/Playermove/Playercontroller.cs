@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Playercontroller : MonoBehaviour
 {
+   public GameObject Door;
+   
+
     [Header("Player Component References")]
     [SerializeField] Rigidbody2D rb;
 
     [Header("Player Settings")] //equivalent to gamemaker variables
-    [SerializeField] float speed; 
+    [SerializeField] float speed;
+    [SerializeField] float horizontalBounce;
+    [SerializeField] float nHorizontalBounce;
     [SerializeField] float jumpingPower;
     [SerializeField] float bouncePower;
     [SerializeField] float nBouncePower;
@@ -33,13 +39,120 @@ public class Playercontroller : MonoBehaviour
     [SerializeField] public Transform upGroundCheck;
 
     private int jumpCount = 2;
-
+    private int keyCount = 0;
+    public float moveSpeed;
 
     public Vector2 horizontal;
 
-    private void FixedUpdate() //allow movement
+    private void Update()
     {
         rb.velocity = new Vector2(horizontal.x * speed, rb.velocity.y);
+
+        bool isPressingUp = Input.GetKey(KeyCode.D);
+
+        if (isPressingUp && IsUpGrounded() /* && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)*/ )
+        {
+            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
+        }
+
+    }
+
+    private void FixedUpdate() //allow movement
+    {
+       
+
+       
+    }
+    
+    public void SuperJump(InputAction.CallbackContext context) //code for jumping
+    {
+        if (context.performed && jumpCount != 2)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, superJumpingPower);
+            jumpCount++;
+        }
+        if (IsGrounded())
+        {
+            jumpCount = 0;
+        }
+    }
+
+
+    public void Jump(InputAction.CallbackContext context) //code for jumping
+    {
+        if (context.performed && jumpCount != 2)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
+            jumpCount++;
+        }
+         
+        if (IsGrounded())
+        {
+            jumpCount = 0;
+        }
+        if (context.performed && IsGrounded() && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)/* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)*/)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold down on the ground to bounce upwards
+        }
+        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = horizontalBounce;
+            //hold left on a leftwall to bounce rightwards
+        }
+        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = nHorizontalBounce;
+            //hold right on the rightwall to bounce leftwards
+        }
+        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = horizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold left and up on the leftwall to bounce upwards and rightwards 
+        }
+        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = nHorizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold right and up on the rightwall to bounce upwards and leftwards 
+        }
+        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = horizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
+            //hold left and down on the leftwall to bounce downwards and rightwards 
+        }
+        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = nHorizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
+            //hold right and down on the rightwall to bounce downwards and leftwards
+        }
+        if (context.performed && IsGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = horizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold right and down on the ground to bounce UPWARDS and RIGHTWARDS (changed pattern)
+        }
+        if (context.performed && IsGrounded() && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = nHorizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold left and down on the ground to bounce UPWARDS and LEFTWARDS (changed pattern)
+        }
+        if (context.performed && IsUpGrounded() && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftArrow) &&  !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = nHorizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
+            //hold left and up on the ceiling to bounce DOWNWARDS and LEFTWARDS (changed pattern)
+        }
+        if (context.performed && IsUpGrounded() && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow) && Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
+        {
+            horizontal.x = horizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
+            //hold right and up on the ceiling to bounce DOWNWARDS and RIGHTWARDS (changed pattern)
+        }
     }
 
     #region PLAYER_CONTROLS
@@ -50,49 +163,15 @@ public class Playercontroller : MonoBehaviour
 
     public void Descend(InputAction.CallbackContext context) //code for moving back and forth
     {
-        rb.velocity = new Vector2(rb.velocity.x, -20);
+        rb.velocity = new Vector2(rb.velocity.x, -100);
 
     }
 
     public void Bounce(InputAction.CallbackContext context) //bouncing you have to hold the correct direction for the bounce to work
     {
-        if (context.performed && IsGrounded() && Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
-        }
-        if (context.performed && IsUpGrounded() && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.DownArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
-        }
-        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow))
-        {
-            horizontal.x = 10f;
-        }
-       if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
-        {
-            horizontal.x = -10f;
-        }
-        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow))
-        {
-            horizontal.x = 10f;
-            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
-        }
-        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow))
-        {
-            horizontal.x = -10f;
-            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
-        }
-        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow))
-        {
-            horizontal.x = 10f;
-            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
-        }
-        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow))
-        {
-            horizontal.x = -10f;
-            rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
-        }
+       
     }
+
 
   
 
@@ -115,34 +194,11 @@ public class Playercontroller : MonoBehaviour
 
     }
 
-    public void SuperJump(InputAction.CallbackContext context) //code for jumping
-    {
-        if (context.performed && jumpCount != 2)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, superJumpingPower);
-            jumpCount++;
-        }
+    
 
-        if (IsGrounded())
-        {
-            jumpCount = 0;
-        }
-    }
+    
 
-    public void Jump(InputAction.CallbackContext context) //code for jumping
-    {
-        if(context.performed && jumpCount != 2)
-        {
-           rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            jumpCount++;
-        }
-       if (IsGrounded())
-            {
-            jumpCount = 0;
-        }
-    }
-
-    public bool IsGrounded() //a capsule checks if the player is on the ground, capsule values here must match with scale of capsule i made
+public bool IsGrounded() //a capsule checks if the player is on the ground, capsule values here must match with scale of capsule i made
     {
         
         return Physics2D.OverlapCapsule(groundCheck.position, new Vector2(0.92f, 0.14f), CapsuleDirection2D.Horizontal, 0, groundLayer);
@@ -165,7 +221,40 @@ public class Playercontroller : MonoBehaviour
 
         return Physics2D.OverlapCapsule(rightGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, groundLayer);
     }
+    //KEYCODE
+   // public void GravityControl(InputAction.CallbackContext context) //trying to make character stick to ceilings
+   // {
+   //     if (context.performed /*&& IsUpGrounded()*/)
+   //     {
+   //         Physics2D.gravity = new Vector2(0, 9f);
+   //         gameObject.GetComponent<Rigidbody2D>().constraints = /*RigidbodyConstraints2D.FreezePositionX |*/ RigidbodyConstraints2D.FreezePositionY;
+   //     }
 
+   // }
+
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.CompareTag("key"))
+        {
+            Physics2D.gravity = new Vector2(0, 9f);
+            //keytimer--;
+            // Destroy(gameObject);
+            // Destroy(Door);
+            // gameObject.SetActive(true);
+            // Door.SetActive(false);
+
+            //gameObject.SetActive(false);
+
+        }
+        /* if (keyCount == 3)
+          {
+              Debug.Log("keycount 1");
+              Destroy(Door);
+          }*/
+    }
+
+    // public void CupStick
 
 }
 #endregion
+
