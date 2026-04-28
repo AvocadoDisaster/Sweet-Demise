@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - key
+  - Enemy
+  - PlayerWeapon
+  - Target
+  - Bullits
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
