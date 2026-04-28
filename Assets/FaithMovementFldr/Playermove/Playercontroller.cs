@@ -28,18 +28,22 @@ public class Playercontroller : MonoBehaviour
 
     [Header("LeftGrounding")] 
     [SerializeField] LayerMask leftGroundLayer;
+    [SerializeField] LayerMask leftWallLayer;
     [SerializeField] public Transform leftGroundCheck;
 
     [Header("RightGrounding")]
     [SerializeField] LayerMask rightGroundLayer;
+    [SerializeField] LayerMask rightWallLayer;
     [SerializeField] public Transform rightGroundCheck;
 
     [Header("UpGrounding")]
     [SerializeField] LayerMask upGroundLayer;
+    [SerializeField] LayerMask roofLayer;
     [SerializeField] public Transform upGroundCheck;
 
     private int jumpCount = 2;
     private int keyCount = 0;
+    private int jumpAllow = 0;
     public float moveSpeed;
 
     public Vector2 horizontal;
@@ -80,15 +84,16 @@ public class Playercontroller : MonoBehaviour
 
     public void Jump(InputAction.CallbackContext context) //code for jumping
     {
-        if (context.performed && jumpCount != 2)
+        if (context.performed && jumpAllow != 0 /*&& IsGrounded()*/)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            jumpCount++;
+            jumpAllow--;
         }
          
         if (IsGrounded())
         {
             jumpCount = 0;
+            jumpAllow = 2;
         }
         if (context.performed && IsGrounded() && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)/* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)*/)
         {
@@ -200,26 +205,30 @@ public class Playercontroller : MonoBehaviour
 
 public bool IsGrounded() //a capsule checks if the player is on the ground, capsule values here must match with scale of capsule i made
     {
-        
-        return Physics2D.OverlapCapsule(groundCheck.position, new Vector2(0.92f, 0.14f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+        Debug.LogWarning("activated");
+        return Physics2D.OverlapCapsule(groundCheck.position, new Vector2(4.4f, 0.14f), CapsuleDirection2D.Horizontal, 0, groundLayer);
     }
 
     private bool IsUpGrounded() //a capsule checks if the player is touching the ceiling, capsule values here must match with scale of capsule i made
     {
 
-        return Physics2D.OverlapCapsule(upGroundCheck.position, new Vector2(0.92f, 0.14f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+        //return Physics2D.OverlapCapsule(upGroundCheck.position, new Vector2(4.4f, 0.14f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+        return Physics2D.OverlapCapsule(upGroundCheck.position, new Vector2(4.4f, 0.14f), CapsuleDirection2D.Horizontal, 0, roofLayer);
+
     }
 
     private bool isLeftGrounded() //a capsule checks if the player is touching an left wall, capsule values here must match with scale of capsule i made
     {
-
-        return Physics2D.OverlapCapsule(leftGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+        Debug.LogWarning("leftwall");
+      //  return Physics2D.OverlapCapsule(leftGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+      return Physics2D.OverlapCapsule(leftGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, leftWallLayer);
     }
 
     private bool isRightGrounded() //a capsule checks if the player is touching an left wall, capsule values here must match with scale of capsule i made
     {
 
-        return Physics2D.OverlapCapsule(rightGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+       // return Physics2D.OverlapCapsule(rightGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, groundLayer);
+        return Physics2D.OverlapCapsule(rightGroundCheck.position, new Vector2(0.12f, 1.95f), CapsuleDirection2D.Horizontal, 0, rightWallLayer);
     }
     //KEYCODE
    // public void GravityControl(InputAction.CallbackContext context) //trying to make character stick to ceilings
