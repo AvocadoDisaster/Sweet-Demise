@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - key
+  - Enemy
+  - PlayerWeapon
+  - Target
+  - Bullits
+  - SpawnPoint
   layers:
   - Default
   - TransparentFX
@@ -11,10 +17,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Ground
+  - LeftGround
+  - Wall
+  - roof
   - 
   - 
   - 
