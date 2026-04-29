@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/GameScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/FaithScene.unity
-    guid: b04b7e780ee5be049a3acb383818c254
-  - enabled: 1
     path: Assets/Scenes/level2.unity
     guid: e10174b08c8661045be194d9fc218d46
   - enabled: 1
@@ -44,4 +41,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/level12.unity
     guid: bb128a7b116e9f64a88d915122e72015
+  - enabled: 1
+    path: Assets/Scenes/level13win.unity
+    guid: 416370673c5e2094eaa22fa233f49fb1
   m_configObjects: {}

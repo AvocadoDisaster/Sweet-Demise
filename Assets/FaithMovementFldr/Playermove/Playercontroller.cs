@@ -95,7 +95,13 @@ public class Playercontroller : MonoBehaviour
             jumpCount = 0;
             jumpAllow = 2;
         }
-        if (context.performed && IsGrounded() && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)/* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)*/)
+        if (context.performed && IsGrounded() && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift) /* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)*/)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold down on the ground to bounce upwards
+        }
+        //GAMEPADREPEAT
+        if (context.performed && IsGrounded() && Input.GetKey(KeyCode.Joystick1Button4) /*&& Input.GetKey(KeyCode.LeftShift) /* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow)*/)
         {
             rb.velocity = new Vector2(rb.velocity.x, bouncePower);
             //hold down on the ground to bounce upwards
@@ -105,12 +111,31 @@ public class Playercontroller : MonoBehaviour
             horizontal.x = horizontalBounce;
             //hold left on a leftwall to bounce rightwards
         }
+        //GAMEPADREPEAT
+        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.Joystick1Button4)/* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)*/)
+        {
+            horizontal.x = horizontalBounce;
+            //hold left on a leftwall to bounce rightwards
+        }
         if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
         {
             horizontal.x = nHorizontalBounce;
             //hold right on the rightwall to bounce leftwards
         }
+        //GAMEPADREPEAT
+        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.Joystick1Button4)/* && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)*/)
+        {
+            horizontal.x = nHorizontalBounce;
+            //hold right on the rightwall to bounce leftwards
+        }
         if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        {
+            horizontal.x = horizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold left and up on the leftwall to bounce upwards and rightwards 
+        }
+        //GAMEPADREPEAT sv
+        if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.Joystick1Button4) && Input.GetKey(KeyCode.Joystick1Button5) /*&& !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)*/)
         {
             horizontal.x = horizontalBounce;
             rb.velocity = new Vector2(rb.velocity.x, bouncePower);
@@ -122,13 +147,20 @@ public class Playercontroller : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, bouncePower);
             //hold right and up on the rightwall to bounce upwards and leftwards 
         }
+        //GAMEPADREPEAT sv
+        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.Joystick1Button4) && Input.GetKey(KeyCode.Joystick1Button5)/* && !Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift)*/)
+        {
+            horizontal.x = nHorizontalBounce;
+            rb.velocity = new Vector2(rb.velocity.x, bouncePower);
+            //hold right and up on the rightwall to bounce upwards and leftwards 
+        }
         if (context.performed && isLeftGrounded() && Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.RightArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
         {
             horizontal.x = horizontalBounce;
             rb.velocity = new Vector2(rb.velocity.x, nBouncePower);
             //hold left and down on the leftwall to bounce downwards and rightwards 
         }
-        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift))
+        if (context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.LeftShift) || context.performed && isRightGrounded() && Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) && !Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.DownArrow) && Input.GetKey(KeyCode.Joystick1Button4)) //left bumper
         {
             horizontal.x = nHorizontalBounce;
             rb.velocity = new Vector2(rb.velocity.x, nBouncePower);

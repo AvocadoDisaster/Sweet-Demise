@@ -48,9 +48,9 @@ MonoBehaviour:
   - prefab: {fileID: 6299355944943669470, guid: 19b48f5e1140c6640b3557006e382ff9, type: 3}
     weight: 0
   - prefab: {fileID: 4629752274154389666, guid: 39270ac5608e91a49af1dd1210d50c18, type: 3}
-    weight: 0
+    weight: 2
   - prefab: {fileID: 3031624823402476756, guid: 79886686b6582794496ecd0e07175e24, type: 3}
-    weight: 0
+    weight: 2
   spawnPointTag: SpawnPoint
   baseSpawnInterval: 3
   baseMaxEnemies: 6

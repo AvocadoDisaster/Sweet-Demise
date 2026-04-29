@@ -186,17 +186,6 @@
                 },
                 {
                     "name": "",
-                    "id": "6928646f-1b08-4280-bc18-174667e8c483",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Shoot",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "eaf28f1b-296b-44d5-9ae0-74b0373e6775",
                     "path": "<Keyboard>/space",
                     "interactions": "",
@@ -230,22 +219,22 @@
                 },
                 {
                     "name": "",
-                    "id": "d9668e01-98b0-487e-9ce0-611d53e4eeeb",
-                    "path": "<Gamepad>/buttonNorth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Special",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "cc62be3c-4a4e-4845-ae8e-157ff90bcb5a",
                     "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3151737-0d05-4ef3-bb2c-1f0d774ee0f6",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -263,6 +252,17 @@
                 },
                 {
                     "name": "",
+                    "id": "4677643c-1b1f-4ad7-baff-40c362b06c71",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "dfdc7aa0-85a6-4215-a4c2-fc38424c31bb",
                     "path": "<Keyboard>/d",
                     "interactions": "",
@@ -274,11 +274,33 @@
                 },
                 {
                     "name": "",
+                    "id": "63fd48a1-0c15-4ae8-9bfd-f1dfdca0f625",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bounce",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d2a4b084-2714-4981-93e2-4f34d39b95bd",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
+                    "action": "SuperJump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "99db26d9-8e50-4158-a22c-2290573af3b0",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "SuperJump",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -301,6 +323,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard",
+                    "action": "HammerSwing",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4d53c15d-48e6-4104-9f80-3febfbee470f",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
                     "action": "HammerSwing",
                     "isComposite": false,
                     "isPartOfComposite": false
