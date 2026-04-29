@@ -315,7 +315,7 @@ GameObject:
   - component: {fileID: 4886828089418245866}
   - component: {fileID: 2506974695874687643}
   m_Layer: 0
-  m_Name: Player 1
+  m_Name: CHOOSETHISONE
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
